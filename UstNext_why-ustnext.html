@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why UstNext</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;color:#1a1a2e;line-height:1.8;background:#fafbfd}
+
+:root{
+  --green:#0d6e3f;--green-light:#e8f5ee;--green-dark:#094d2c;
+  --blue:#1a73e8;--blue-light:#e3f0ff;
+  --orange:#e67e22;--orange-light:#fdf0e2;
+  --purple:#7c3aed;--purple-light:#f3e8ff;
+  --red:#dc3545;--yellow:#f59e0b;--yellow-light:#fef3c7;
+  --text:#1a1a2e;--text-light:#6b7280;--text-muted:#9ca3af;
+  --bg:#fafbfd;--white:#fff;--border:#e5e7eb;
+  --shadow:0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.1);
+  --r:12px;--r-lg:20px;
+}
+
+/* LAYOUT */
+.container{max-width:860px;margin:0 auto;padding:0 28px}
+section{padding:72px 0}
+section:nth-child(even){background:var(--white)}
+
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+.topnav.scrolled{box-shadow:var(--shadow)}
+.topnav .container{display:flex;align-items:center;justify-content:space-between;height:52px}
+.topnav-logo{font-weight:800;font-size:1rem;color:var(--green)}
+.topnav-links{display:flex;gap:2px}
+.topnav-links a{padding:5px 10px;font-size:.72rem;font-weight:600;color:var(--text-light);text-decoration:none;border-radius:16px;transition:all .2s}
+.topnav-links a:hover,.topnav-links a.active{color:var(--green);background:var(--green-light)}
+@media(max-width:768px){.topnav-links{display:none}}
+
+/* TYPOGRAPHY */
+h1{font-size:2.6rem;font-weight:800;line-height:1.2;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+h3{font-size:1.2rem;font-weight:700;line-height:1.4}
+h4{font-size:1rem;font-weight:700}
+.lead{font-size:1.05rem;color:var(--text-light);line-height:1.9}
+.overline{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--green);display:block;margin-bottom:6px}
+.chapter-head{text-align:center;margin-bottom:48px}
+.chapter-head h2{margin-bottom:10px}
+.chapter-head p{max-width:600px;margin:0 auto;color:var(--text-light);font-size:.95rem}
+
+/* COVER */
+.cover{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#0d6e3f,#1a73e8 55%,#7c3aed)}
+.cover::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M20 20h-2v2h2v-2zm0-20h-2v2h2V0zM0 20H-2v2H0v-2z'/%3E%3C/g%3E%3C/svg%3E")}
+.cover-inner{position:relative;z-index:1;text-align:center;color:#fff;padding:32px}
+.cover-badge{display:inline-block;padding:5px 18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:100px;font-size:.72rem;font-weight:600;margin-bottom:20px;backdrop-filter:blur(4px)}
+.cover h1{margin-bottom:14px;text-shadow:0 2px 16px rgba(0,0,0,.2)}
+.cover .lead{color:rgba(255,255,255,.85);font-size:1.15rem;max-width:640px;margin:0 auto 36px}
+.cover-meta{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:40px}
+.scroll-down{position:absolute;bottom:48px;left:50%;transform:translateX(-50%);animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.scroll-down svg{width:22px;height:22px;stroke:rgba(255,255,255,.4);stroke-width:2;fill:none}
+@media(max-width:768px){.cover h1{font-size:1.8rem}.cover .lead{font-size:.95rem}}
+
+/* CARD */
+.card{background:var(--white);border-radius:var(--r);padding:24px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-accent{border-left:4px solid}
+
+/* QUOTE BLOCK */
+.quote-block{background:linear-gradient(135deg,var(--green-light),var(--blue-light));border-radius:var(--r-lg);padding:32px;text-align:center;font-size:1.05rem;font-weight:600;line-height:2;border:none;box-shadow:none}
+
+/* PROBLEM LIST */
+.problem-list{list-style:none;margin:16px 0}
+.problem-list li{padding:8px 0 8px 28px;position:relative;font-size:.92rem;color:var(--text-light)}
+.problem-list li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;background:var(--red);border-radius:50%;opacity:.7}
+
+/* COMPETITOR TABLE */
+.comp-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--border)}
+.comp-table th{background:#f1f5f9;font-size:.75rem;font-weight:700;padding:10px 14px;text-align:left;color:var(--text-light)}
+.comp-table td{padding:10px 14px;font-size:.85rem;border-top:1px solid var(--border);vertical-align:middle}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table .highlight td{background:var(--green-light);font-weight:600}
+.comp-table .xmark{color:#ccc;font-weight:700}
+.comp-table .check{color:var(--green);font-weight:700}
+.comp-table .tri{color:var(--orange);font-weight:700}
+
+/* FLOW STEPS */
+.flow-row{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:32px 0}
+.flow-box{text-align:center;padding:18px 20px;background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);border:1px solid var(--border);min-width:140px;flex:1}
+.flow-box .fb-label{font-weight:700;font-size:.88rem;margin-bottom:4px}
+.flow-box .fb-desc{font-size:.75rem;color:var(--text-light)}
+.flow-arrow{font-size:1.2rem;color:var(--green);padding:0 6px;font-weight:700;flex-shrink:0}
+@media(max-width:640px){.flow-row{flex-direction:column;gap:0}.flow-arrow{transform:rotate(90deg);padding:4px 0}}
+
+/* MATCH LIST */
+.match-list{list-style:none;margin:16px 0}
+.match-list li{display:flex;align-items:center;gap:12px;padding:6px 0;font-size:.92rem}
+.match-list .ml-left{font-weight:600;min-width:100px;color:var(--green)}
+.match-list .ml-arrow{color:var(--text-muted)}
+
+/* 5-PARTY CARDS */
+.party-label{display:inline-block;padding:3px 12px;border-radius:100px;font-size:.7rem;font-weight:700;margin-bottom:10px}
+.party-green{background:var(--green-light);color:var(--green)}
+.party-blue{background:var(--blue-light);color:var(--blue)}
+.party-purple{background:var(--purple-light);color:var(--purple)}
+.party-orange{background:var(--orange-light);color:var(--orange)}
+.party-yellow{background:var(--yellow-light);color:#92400e}
+
+/* BENEFIT ITEM */
+.benefit-list{margin:16px 0}
+.benefit-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid var(--border)}
+.benefit-item:last-child{border-bottom:none}
+.benefit-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;color:#fff;margin-top:2px}
+.benefit-num.bg-green{background:var(--green)}
+.benefit-num.bg-blue{background:var(--blue)}
+.benefit-num.bg-purple{background:var(--purple)}
+.benefit-num.bg-orange{background:var(--orange)}
+.benefit-num.bg-yellow{background:var(--yellow)}
+.benefit-text h4{font-size:.9rem;margin-bottom:2px}
+.benefit-text p{font-size:.82rem;color:var(--text-light);line-height:1.7}
+
+/* SUMMARY BOX */
+.summary-box{background:linear-gradient(135deg,var(--green),var(--blue));color:#fff;border-radius:var(--r);padding:20px 24px;margin-top:20px;font-size:.88rem;line-height:1.8}
+.summary-box strong{color:#fff}
+
+/* REFORM BANNER */
+.reform{background:linear-gradient(135deg,#fbbf24,#f59e0b);border-radius:var(--r);padding:24px;color:#78350f}
+.reform h4{margin-bottom:8px}
+.reform-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.reform-tag{background:rgba(255,255,255,.55);padding:3px 10px;border-radius:100px;font-size:.72rem;font-weight:600}
+
+/* EXPANSION CARD */
+.exp-card{padding:20px;border-left:3px solid var(--border)}
+.exp-card h4{font-size:.92rem;margin-bottom:6px}
+.exp-card .exp-label{font-size:.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em}
+.exp-card p{font-size:.82rem;color:var(--text-light);margin-top:4px}
+.exp-card .exp-revenue{font-size:.78rem;color:var(--green);font-weight:600;margin-top:6px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* UNIQUE FEATURES */
+.uf-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.uf-item:last-child{border-bottom:none}
+.uf-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--green-light);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;margin-top:2px}
+.uf-text h4{font-size:.9rem;margin-bottom:2px}
+.uf-text p{font-size:.82rem;color:var(--text-light)}
+.uf-badge{display:inline-block;padding:1px 8px;border-radius:100px;font-size:.62rem;font-weight:700;margin-left:6px}
+.uf-badge-new{background:#ffe600;color:#1a1a2e}
+.uf-badge-first{background:var(--green-light);color:var(--green)}
+
+/* ROADMAP */
+.roadmap{position:relative;padding-left:28px}
+.roadmap::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--green),var(--blue),var(--orange),var(--purple))}
+.rm-item{position:relative;margin-bottom:28px}
+.rm-item::before{content:'';position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;border:3px solid var(--green);background:var(--white)}
+.rm-item.p1::before{border-color:var(--blue)}
+.rm-item.p2::before{border-color:var(--orange)}
+.rm-item.p3::before{border-color:var(--purple)}
+.rm-label{display:inline-block;padding:2px 10px;border-radius:100px;font-size:.68rem;font-weight:700;margin-bottom:4px}
+.rm-label.l0{background:var(--green-light);color:var(--green)}
+.rm-label.l1{background:var(--blue-light);color:var(--blue)}
+.rm-label.l2{background:var(--orange-light);color:var(--orange)}
+.rm-label.l3{background:var(--purple-light);color:var(--purple)}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--green),var(--blue));padding:72px 0;text-align:center;color:#fff}
+.cta-section h2{color:#fff;margin-bottom:12px}
+.cta-section p{color:rgba(255,255,255,.85);max-width:560px;margin:0 auto 28px;font-size:.95rem;line-height:1.9}
+
+/* FOOTER */
+footer{background:var(--text);color:rgba(255,255,255,.5);padding:32px 0;text-align:center;font-size:.75rem}
+footer strong{color:#fff}
+
+/* ANIMATION */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fi.visible{opacity:1;transform:translateY(0)}
+.fi-d1{transition-delay:.1s}.fi-d2{transition-delay:.2s}.fi-d3{transition-delay:.3s}
+
+/* PRINT */
+@media print{.topnav,.scroll-down{display:none}.cover{min-height:auto;padding:60px 0}section{padding:32px 0}.fi{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav" id="nav">
+  <div class="container">
+    <div class="topnav-logo">UstNext</div>
+    <div class="topnav-links">
+      <a href="#ch1">課題</a>
+      <a href="#ch2">ビジョン</a>
+      <a href="#ch3">なぜ今</a>
+      <a href="#ch4">なぜ私たち</a>
+      <a href="#ch5">ベネフィット</a>
+      <a href="#ch6">拡張</a>
+      <a href="#ch7">具体策</a>
+      <a href="#ch8">独自性</a>
+    </div>
+  </div>
+</nav>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover-inner">
+    <div class="cover-badge">INTERNAL PROPOSAL</div>
+    <h1>なぜ、この<br>プラットフォームなのか</h1>
+    <p class="lead">UstNext &mdash; 専門学校と企業をつなぐ閉鎖型就職支援プラットフォーム<br>USTORY 役員各位への提案書</p>
+    <div class="cover-meta">2026年3月 &middot; USTORY Inc.</div>
+  </div>
+  <div class="scroll-down"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+</section>
+
+<!-- はじめに -->
+<section>
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Introduction</span>
+      <h2>はじめに</h2>
+    </div>
+    <div class="card fi" style="max-width:680px;margin:0 auto;padding:28px 32px;font-size:.95rem;line-height:2">
+      <p>この文書は、USTORYの次の柱として<br><strong>「専門学校生に完全特化した就職支援プラットフォーム」</strong>を提案するものです。</p>
+      <p style="margin-top:16px">サービス名を <strong>UstNext（ユーストネクスト）</strong>とします。<br>USTORYの「Ust」に、「Next = 次の一手」を組み合わせた名前です。</p>
+      <p style="margin-top:16px">私たちがこれまで高校生の就職支援で培ってきた知見と資産を活かしながら、<br>「専門学校」という、<strong>誰も本気で取りに行っていない市場</strong>を先に押さえる。</p>
+      <p style="margin-top:16px;color:var(--text-light)">なぜ今なのか、なぜ私たちなのか、なぜこの形なのか。<br>順を追って説明します。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 第1章 課題 -->
+<section id="ch1">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 1 &mdash; Problem</span>
+      <h2>課題 &mdash; 今、何が起きているのか</h2>
+    </div>
+
+    <h3 class="fi">1-1. 専門学校生の就活は、いまだにアナログである</h3>
+    <p class="fi" style="margin-top:12px">専門学校には約<strong>60万人</strong>の学生が在籍し、就職率は約<strong>96%</strong>。つまり、ほぼ全員が就活をする。しかし、その就活の実態はこうです。</p>
+    <ul class="problem-list fi" style="margin-top:12px">
+      <li>求人票は紙のPDFが学校に届き、掲示板に貼られる</li>
+      <li>就職課の先生が企業と学生の間に立って仲介する</li>
+      <li>学生が企業と直接やりとりする手段がほとんどない</li>
+      <li>企業側は、どの学校にどんな学生がいるか見えない</li>
+    </ul>
+    <p class="fi" style="margin-top:12px;color:var(--text-light)">マイナビやリクナビは大学生向けに最適化されており、専門学校生は「ついでに使っていい」という扱い。Wantedlyは給与すら載せない。専門学校生にとって給与情報は最も重要な判断材料の一つなのに。</p>
+
+    <h3 class="fi" style="margin-top:40px">1-2. 企業側も困っている</h3>
+    <p class="fi" style="margin-top:12px">専門学校卒を採用したい企業は数万社。IT、医療、美容、調理、建築、自動車整備 &mdash; これらの業界は専門学校卒がなければ回りません。</p>
+    <ul class="problem-list fi">
+      <li>どの学校にアプローチすれば自社に合う学生がいるかわからない</li>
+      <li>学校ごとに個別に訪問・交渉するしかない</li>
+      <li>「学科 = 職種」という専門学校独自の構造を理解した採用PFがない</li>
+      <li>結局、ハローワークと学校訪問に頼っている</li>
+    </ul>
+
+    <h3 class="fi" style="margin-top:40px">1-3. 既存サービスは、この問題を解決していない</h3>
+    <table class="comp-table fi" style="margin-top:16px">
+      <thead><tr><th>サービス</th><th>対象</th><th>専門学校特化</th><th>課題</th></tr></thead>
+      <tbody>
+        <tr><td><strong>マイナビ / リクナビ</strong></td><td>大学生中心</td><td class="xmark">&times;</td><td>専門学校は片手間。学科マッチング不可</td></tr>
+        <tr><td><strong>Wantedly</strong></td><td>IT・ベンチャー志向</td><td class="xmark">&times;</td><td>専門学校生対象外。給与非公開</td></tr>
+        <tr><td><strong>Careermap</strong></td><td>学校SaaS</td><td class="tri">&triangle;</td><td>学校向けツール。企業/学生向けPFではない</td></tr>
+        <tr><td><strong>ジンジブ</strong></td><td>高校生特化</td><td class="xmark">&times;</td><td>専門学校は対象外</td></tr>
+        <tr class="highlight"><td><strong>UstNext</strong></td><td><strong>専門学校生完全特化</strong></td><td class="check">&check;</td><td><strong>学科=職種、就職課、指定求人に100%最適化</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="fi" style="margin-top:16px;font-weight:600;text-align:center">「専門学校生のための就活PF」は、この市場に<span style="color:var(--red)">1つも存在しない。</span></p>
+  </div>
+</section>
+
+<!-- 第2章 ビジョン -->
+<section id="ch2">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 2 &mdash; Vision</span>
+      <h2>ビジョン &mdash; 私たちが実現したい未来</h2>
+    </div>
+
+    <h3 class="fi">2-1. 「専門学校のインフラ」になる</h3>
+    <p class="fi" style="margin-top:12px">UstNextが目指すのは、単なる就活サイトではなく、専門学校にとっての<strong>「インフラ」</strong>です。入口から卒業後まで、一気通貫でカバーする。</p>
+
+    <div class="flow-row fi">
+      <div class="flow-box" style="border-top:3px solid var(--orange)"><div class="fb-label">入口</div><div class="fb-desc">学校紹介ページで<br>高校生が学校を知る</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box" style="border-top:3px solid var(--green)"><div class="fb-label">在学中</div><div class="fb-desc">求人閲覧・チャット<br>履歴書作成・逆オファー</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box" style="border-top:3px solid var(--blue)"><div class="fb-label">出口</div><div class="fb-desc">就職決定<br>or 大学編入</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-box" style="border-top:3px solid var(--purple)"><div class="fb-label">卒業後</div><div class="fb-desc">第二新卒コーナーで<br>3年間継続利用</div></div>
+    </div>
+
+    <div class="quote-block fi" style="margin-top:24px">
+      「UstNextに加盟している専門学校は、入学者も集まるし、就職率も上がる。<br>加盟していない学校は、時代に乗り遅れている。」<br>そう言わせる存在になりたい。
+    </div>
+
+    <h3 class="fi" style="margin-top:40px">2-2. 「学科 = 職種」を軸にした、世界で唯一のマッチング</h3>
+    <p class="fi" style="margin-top:12px">専門学校の最大の特徴は、学科がそのまま職種に直結すること。</p>
+    <ul class="match-list fi">
+      <li><span class="ml-left">IT学科</span><span class="ml-arrow">&rarr;</span> ITエンジニア</li>
+      <li><span class="ml-left">調理学科</span><span class="ml-arrow">&rarr;</span> 調理師・パティシエ</li>
+      <li><span class="ml-left">看護学科</span><span class="ml-arrow">&rarr;</span> 看護師</li>
+      <li><span class="ml-left">美容学科</span><span class="ml-arrow">&rarr;</span> 美容師</li>
+      <li><span class="ml-left">建築学科</span><span class="ml-arrow">&rarr;</span> 建築士・施工管理</li>
+    </ul>
+    <p class="fi" style="margin-top:12px;color:var(--text-light)">この構造をマッチングの軸にしたPFは存在しない。企業は「IT学科の2年生」とピンポイントで指定でき、学生は「自分の学科に合った求人」だけが表示される。</p>
+
+    <h3 class="fi" style="margin-top:40px">2-3. 5者をつなぎ、3者から課金する</h3>
+    <div class="grid-2 fi" style="margin-top:16px">
+      <div class="card" style="padding:20px">
+        <h4 style="margin-bottom:10px">5つのユーザー</h4>
+        <ul style="list-style:none;font-size:.88rem;line-height:2.2">
+          <li><span class="party-label party-blue">企業</span> 求人掲載・スカウト</li>
+          <li><span class="party-label party-purple">大学</span> 編入PR・スカウト</li>
+          <li><span class="party-label party-orange">専門学校</span> 学生管理・求人管理</li>
+          <li><span class="party-label party-green">学生</span> 求人閲覧・履歴書作成</li>
+          <li><span class="party-label party-yellow">高校生/教員</span> 学校紹介閲覧</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:20px">
+        <h4 style="margin-bottom:10px">3つの課金源</h4>
+        <ul style="list-style:none;font-size:.88rem;line-height:2.2">
+          <li><strong style="color:var(--blue)">企業</strong> &rarr; メイン課金元</li>
+          <li><strong style="color:var(--purple)">大学</strong> &rarr; 第2の課金元</li>
+          <li><strong style="color:var(--orange)">専門学校</strong> &rarr; 将来課金（初期無料）</li>
+          <li style="color:var(--text-muted);font-size:.82rem;margin-top:8px">学生・高校 = 無料（母数を集める）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第3章 なぜ今 -->
+<section id="ch3">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 3 &mdash; Why Now</span>
+      <h2>なぜ今なのか &mdash; 2026年、最高のタイミング</h2>
+    </div>
+
+    <div class="reform fi">
+      <h4>2026年4月 学校教育法 改正施行</h4>
+      <p style="font-size:.88rem">専門学校の歴史の中で最大級の変化。社会的評価が大幅に向上する。</p>
+      <div class="reform-tags">
+        <span class="reform-tag">単位制への移行</span>
+        <span class="reform-tag">「生徒」&rarr;「学生」呼称変更</span>
+        <span class="reform-tag">専門士の法的格上げ</span>
+        <span class="reform-tag">大学編入の拡大</span>
+        <span class="reform-tag">専攻科設置の拡大</span>
+      </div>
+    </div>
+
+    <div class="grid-2 fi" style="margin-top:24px">
+      <div class="card card-accent" style="border-color:var(--blue)">
+        <h4>編入受入大学は576校</h4>
+        <p style="font-size:.85rem;color:var(--text-light);margin-top:6px">全国576校のCSVリストを作成済み（国立72/公立42/私立462）。全て「大学編入コーナー」への広告出稿の営業対象。このチャネルはUstNextにしか存在しない。</p>
+      </div>
+      <div class="card card-accent" style="border-color:var(--red)">
+        <h4>このタイミングを逃すと</h4>
+        <p style="font-size:.85rem;color:var(--text-light);margin-top:6px">制度改正で専門学校の価値が上がれば、いずれ大手も参入する。しかし大手は「大学生向けPFの延長」として入ってくる。今なら先行者として市場を押さえられる。1年後では遅いかもしれない。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第4章 なぜ私たち -->
+<section id="ch4">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 4 &mdash; Why Us</span>
+      <h2>なぜ私たちなのか &mdash; USTORYだからできること</h2>
+    </div>
+
+    <div class="card fi" style="padding:28px;margin-bottom:24px">
+      <h3>4-1. 私たちは「学校」を知っている</h3>
+      <p style="font-size:.9rem;margin-top:10px;color:var(--text-light)">USTORYはこれまで高校生の就職支援に取り組んできた。学校訪問を重ね、先生方との関係を築き、「企業が生徒と直接接点を持ってはいけない」というルールを肌で理解している。</p>
+      <p style="font-size:.9rem;margin-top:8px">だからUstNextは、<strong>就職課がチャット監視できる設計</strong>にしている。企業と学生を直接つなぎつつ、就職課が介入・管理できる。「学校に受け入れられるPF」を作れるのは、学校現場を知っている私たちだから。</p>
+    </div>
+
+    <div class="grid-2 fi">
+      <div class="card" style="padding:20px">
+        <h4>4-2. 独自資産が活きる</h4>
+        <div style="margin-top:12px">
+          <p style="font-size:.85rem"><strong style="color:var(--green)">USTORYバイト</strong><br><span style="color:var(--text-light)">高校生との早期接点 &rarr; UstNextの「入口」として活用</span></p>
+          <p style="font-size:.85rem;margin-top:10px"><strong style="color:var(--green)">OCR技術</strong><br><span style="color:var(--text-light)">紙の求人票をデータ化 &rarr; 学科別自動分類に直結</span></p>
+        </div>
+      </div>
+      <div class="card" style="padding:20px">
+        <h4>4-3. 縦のラインを押さえる</h4>
+        <div style="margin-top:12px;text-align:center;font-size:.88rem;line-height:2.4">
+          <div><strong>高校生</strong>（USTORY既存事業）</div>
+          <div style="color:var(--green)">&darr; 進学</div>
+          <div><strong>専門学校生</strong>（UstNext）</div>
+          <div style="color:var(--green)">&darr; 就職</div>
+          <div><strong>企業</strong></div>
+          <p style="font-size:.78rem;color:var(--text-light);margin-top:8px;text-align:left">この縦のラインを一社で押さえられるのは、高校生支援の実績を持つ私たちだけ</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card fi" style="padding:28px;margin-top:24px;border-left:4px solid var(--green)">
+      <h3>4-4. なぜ「PF型」なのか &mdash; スケールする事業構造を選ぶ</h3>
+      <p style="font-size:.9rem;margin-top:10px">この市場を取りに行くなら、「労働集約型」ではなく<strong>「PF型」</strong>が最適です。</p>
+      <p style="font-size:.9rem;margin-top:8px;color:var(--text-light)">人手をかけて1社1社に営業するモデルでは、売上と人件費が比例してスケールしません。PF型であれば、</p>
+      <ul style="font-size:.88rem;margin:8px 0 8px 20px;color:var(--text-light);line-height:2">
+        <li>一度作れば、<strong style="color:var(--text)">学校が増えるほどユーザーが増える</strong></li>
+        <li>ユーザーが増えるほど、<strong style="color:var(--text)">企業が広告を出す</strong></li>
+        <li>ネットワーク効果で<strong style="color:var(--text)">自然に成長する</strong></li>
+      </ul>
+      <p style="font-size:.9rem;margin-top:8px">専門学校約3,000校 &times; 学生60万人 &times; 採用企業数万社。このネットワークの結節点にPFを置くことで、1人あたりの売上を大きく伸ばせる構造が作れます。</p>
+      <p style="font-size:.9rem;margin-top:8px"><strong>上場企業ジンジブは高校生市場を押さえた。私たちは、ジンジブが手を出していない「専門学校」という隣の市場で、先行者としてPFの地位を築く。</strong>これが、最も勝率の高い戦い方です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 第5章 ベネフィット -->
+<section id="ch5">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 5 &mdash; Benefits</span>
+      <h2>誰にどんな価値を届けるのか</h2>
+      <p>5者全員にとって「使わない理由がない」設計。課金するのは企業と大学だけ。</p>
+    </div>
+
+    <!-- 専門学校 -->
+    <div class="card fi" style="margin-bottom:24px">
+      <span class="party-label party-orange">専門学校</span>
+      <h3>5-1. 専門学校のベネフィット</h3>
+      <div class="benefit-list">
+        <div class="benefit-item"><div class="benefit-num bg-orange">1</div><div class="benefit-text"><h4>入学者が増える</h4><p>学校紹介ページで高校生/教員に24時間365日PR。就職率・提携企業数が可視化され、デジタルでの集客チャネルが生まれる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">2</div><div class="benefit-text"><h4>就職率が上がる</h4><p>学科=職種のマッチングで最適な求人が届く。企業からのスカウトも届き、ミスマッチが減る。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">3</div><div class="benefit-text"><h4>就職課の業務が減る</h4><p>紙の求人票→デジタル管理。企業やりとり→チャット。学生進捗→ダッシュボード一覧。電話対応が激減。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">4</div><div class="benefit-text"><h4>企業との接点が増える</h4><p>企業側から「この学科の学生が欲しい」と指名が届く。待ちの姿勢→企業から来る構造に。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">5</div><div class="benefit-text"><h4>卒業生との関係が続く</h4><p>第二新卒コーナーで卒業後3年間つながる。卒業生の活躍が学校のブランドになる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">6</div><div class="benefit-text"><h4>大学編入の実績が作れる</h4><p>576大学の編入情報を学生に提供。2026年改正で編入ニーズ急増に先回り対応。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">7</div><div class="benefit-text"><h4>他校との差別化</h4><p>「UstNext加盟校」であること自体がブランドになる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-orange">8</div><div class="benefit-text"><h4>無料で始められる</h4><p>コストゼロ、リスクゼロ。導入のハードルなし。</p></div></div>
+      </div>
+      <div class="summary-box">入学者を集め、就職率を上げ、業務を減らす。しかも無料。</div>
+    </div>
+
+    <!-- 企業 -->
+    <div class="card fi" style="margin-bottom:24px">
+      <span class="party-label party-blue">企業</span>
+      <h3>5-2. 企業のベネフィット</h3>
+      <div class="benefit-list">
+        <div class="benefit-item"><div class="benefit-num bg-blue">1</div><div class="benefit-text"><h4>欲しい人材にダイレクトに届く</h4><p>学科で絞り込んで求人掲載。見る学生が全員ターゲット。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">2</div><div class="benefit-text"><h4>求人票が「武器」に変わる</h4><p>What/Why/How構造、社員紹介、ストーリー。給与も明記（Wantedlyとの決定的な違い）。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">3</div><div class="benefit-text"><h4>学校アプローチがデジタルで完結</h4><p>クリック1つで送信。既読確認もリアルタイム。数週間→即日到達。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">4</div><div class="benefit-text"><h4>学生と直接チャット</h4><p>就職課の監視下で安心。伝言ゲーム→直接対話に。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">5</div><div class="benefit-text"><h4>スカウトが送れる</h4><p>プロフィールを見て「この学生に会いたい」を送信（就職課許可制）。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">6</div><div class="benefit-text"><h4>採用担当の人柄で惹きつける</h4><p>図書庫の読書登録がカルチャーマッチの入口に。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">7</div><div class="benefit-text"><h4>複数校に一括リーチ</h4><p>1求人掲載で全加盟校の該当学科に表示。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">8</div><div class="benefit-text"><h4>学生から来る</h4><p>逆オファーコーナーで学生が声を上げ、企業がリアクション。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">9</div><div class="benefit-text"><h4>採用コストが下がる</h4><p>無料〜月5万円。学校訪問（数十万〜数百万）と比較して圧倒的に安い。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-blue">10</div><div class="benefit-text"><h4>効果が見える</h4><p>閲覧数・気になる数・チャット数をリアルタイム確認。数字でPDCA。</p></div></div>
+      </div>
+      <div class="summary-box">欲しい学科の学生にダイレクトに届き、月5万円以下で全部できる。</div>
+    </div>
+
+    <!-- 大学 -->
+    <div class="card fi" style="margin-bottom:24px">
+      <span class="party-label party-purple">大学</span>
+      <h3>5-3. 大学のベネフィット</h3>
+      <div class="benefit-list">
+        <div class="benefit-item"><div class="benefit-num bg-purple">1</div><div class="benefit-text"><h4>専門学校生にPRできる唯一の媒体</h4><p>この広告チャネルはUstNextにしか存在しない。完全な空白市場。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">2</div><div class="benefit-text"><h4>学科でターゲティング</h4><p>自大学の学部に合う学科だけにピンポイント配信。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">3</div><div class="benefit-text"><h4>スカウトで優秀な学生を指名</h4><p>待つのではなく、大学から迎えに行ける。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">4</div><div class="benefit-text"><h4>説明会の効率的な集客・運営</h4><p>告知→申込→管理まで一気通貫。Zoom連携も。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">5</div><div class="benefit-text"><h4>広告効果が数字で見える</h4><p>閲覧数/クリック/申込/返信率をリアルタイム確認。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">6</div><div class="benefit-text"><h4>月1万円から</h4><p>合同説明会1回（数十万円）と比較して圧倒的に安い。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">7</div><div class="benefit-text"><h4>2026年改正の波に乗れる</h4><p>改正前から掲載で、需要爆発時に先行者優位。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-purple">8</div><div class="benefit-text"><h4>576校の中で差別化</h4><p>先に動いた大学が編入市場の認知を独占できる。</p></div></div>
+      </div>
+      <div class="summary-box" style="background:linear-gradient(135deg,var(--purple),var(--blue))">編入希望の学生に唯一リーチできる媒体。月1万円から。</div>
+    </div>
+
+    <!-- 高校 -->
+    <div class="card fi" style="margin-bottom:24px">
+      <span class="party-label party-yellow">高校</span>
+      <h3>5-4. 高校のベネフィット</h3>
+      <div class="benefit-list">
+        <div class="benefit-item"><div class="benefit-num bg-yellow">1</div><div class="benefit-text"><h4>専門学校の「本当の実力」が一目でわかる</h4><p>就職率・提携企業数を統一フォーマットで比較。数字で判断できる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">2</div><div class="benefit-text"><h4>「卒業後どうなるか」にデータで答えられる</h4><p>就職率5年推移、就職先、初年度年収が見える。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">3</div><div class="benefit-text"><h4>進路指導の材料が1か所に揃う</h4><p>生徒にURLを共有するだけ。先生の調査時間ゼロ。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">4</div><div class="benefit-text"><h4>2026年改正を正確に伝えられる</h4><p>改正バナーを見せるだけで説明完了。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">5</div><div class="benefit-text"><h4>OC情報が一覧できる</h4><p>分野フィルタで生徒に合うOCだけ表示。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">6</div><div class="benefit-text"><h4>大学編入の選択肢を提示</h4><p>「専門学校→大学」ルートを具体的に見せられる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">7</div><div class="benefit-text"><h4>保護者への説明が楽になる</h4><p>URLを共有→保護者が自宅でデータを見て納得。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-yellow">8</div><div class="benefit-text"><h4>完全無料・登録不要</h4><p>費用ゼロ。公開ページなので誰でもいつでも見られる。</p></div></div>
+      </div>
+      <div class="summary-box" style="background:linear-gradient(135deg,#d97706,var(--orange))">進路指導の材料が揃い、時間も質も改善。無料・登録不要。</div>
+    </div>
+
+    <!-- 学生 -->
+    <div class="card fi" style="margin-bottom:24px">
+      <span class="party-label party-green">学生</span>
+      <h3>5-5. 学生のベネフィット</h3>
+      <div class="benefit-list">
+        <div class="benefit-item"><div class="benefit-num bg-green">1</div><div class="benefit-text"><h4>自分の学科に合った求人だけが届く</h4><p>関係ない求人をかき分ける必要がない。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">2</div><div class="benefit-text"><h4>企業の「中身」が見える</h4><p>What/Why/How、社員紹介、ストーリー。給与も明記。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">3</div><div class="benefit-text"><h4>履歴書がWebで作れる</h4><p>JIS規格準拠。3テンプレート。公開設定でマッチング対象にも。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">4</div><div class="benefit-text"><h4>企業と直接チャット</h4><p>就職課の見守りのもと、「話を聞いてみたい」から気軽に開始。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">5</div><div class="benefit-text"><h4>声を上げられる</h4><p>逆オファーで理想の仕事像を投稿。企業からリアクションが届く。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">6</div><div class="benefit-text"><h4>卒業後も使える</h4><p>第二新卒コーナーで3年間継続。プロフィールが残る。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">7</div><div class="benefit-text"><h4>大学編入の選択肢</h4><p>編入先大学の情報が見える。就職だけじゃない。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">8</div><div class="benefit-text"><h4>本で人とつながれる</h4><p>図書庫で読書共有。採用担当の本棚から企業カルチャーを感じ取れる。</p></div></div>
+        <div class="benefit-item"><div class="benefit-num bg-green">9</div><div class="benefit-text"><h4>全機能無料</h4><p>広告なし。学校ID/PWで簡単ログイン。</p></div></div>
+      </div>
+      <div class="summary-box">自分に合った求人が届き、企業と直接話せ、全部無料。</div>
+    </div>
+
+    <!-- 総括 -->
+    <div class="quote-block fi" style="margin-top:8px">
+      <strong>5者全員にとって「使わない理由がない」設計。</strong><br>
+      課金するのは企業と大学だけ &rarr; 残り3者は無料で母数が集まる &rarr; 母数が集まるから企業と大学が課金する。<br>
+      <strong>これがネットワーク効果の起点。</strong>
+    </div>
+  </div>
+</section>
+
+<!-- 第6章 拡張 -->
+<section id="ch6">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 6 &mdash; Expansion</span>
+      <h2>さらに広がる可能性 &mdash; 5者の先にいる6者</h2>
+      <p>PFの成長に伴い、課金源は2源から最大7源に拡大する</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card exp-card fi fi-d1" style="border-color:var(--orange)">
+        <div class="exp-label">6-1</div>
+        <h4>保護者</h4>
+        <p>「専門学校に行って大丈夫か」の不安をデータで解消。学校紹介ページで就職率・年収を確認。</p>
+        <div class="exp-revenue">収益: 間接効果（入学者増に直結）</div>
+      </div>
+      <div class="card exp-card fi fi-d2" style="border-color:var(--blue)">
+        <div class="exp-label">6-2</div>
+        <h4>地方自治体</h4>
+        <p>「地元で学んで地元で働く」流れを作る。エリアフィルターで地域マッチング。</p>
+        <div class="exp-revenue">収益: 地方創生予算・補助金（数百万〜数千万円）</div>
+      </div>
+      <div class="card exp-card fi fi-d1" style="border-color:var(--green)">
+        <div class="exp-label">6-3</div>
+        <h4>業界団体・職能団体</h4>
+        <p>IT協会、美容組合、調理師会など。加盟企業を一括でUstNextに連れてきてくれる。</p>
+        <div class="exp-revenue">収益: スポンサープラン・団体一括導入</div>
+      </div>
+      <div class="card exp-card fi fi-d2" style="border-color:var(--purple)">
+        <div class="exp-label">6-4</div>
+        <h4>資格・検定団体 / 教材会社</h4>
+        <p>学生プロフィールの「取得予定資格」にターゲティング広告。図書庫に対策本掲載で認知拡大。</p>
+        <div class="exp-revenue">収益: 広告プラン・アフィリエイト</div>
+      </div>
+      <div class="card exp-card fi fi-d1" style="border-color:var(--yellow)">
+        <div class="exp-label">6-5</div>
+        <h4>出版社・著者</h4>
+        <p>図書庫で自然な口コミ発生。「この本を読んでいる人120人」のデータ。</p>
+        <div class="exp-revenue">収益: スポンサード書籍・アフィリエイト・データ提供</div>
+      </div>
+      <div class="card exp-card fi fi-d2" style="border-color:var(--red)">
+        <div class="exp-label">6-6</div>
+        <h4>人材紹介会社・派遣会社</h4>
+        <p>第二新卒コーナーに卒業後3年間のスキル可視化済ユーザーがいる。</p>
+        <div class="exp-revenue">収益: 成功報酬型（1人数十万円）</div>
+      </div>
+    </div>
+
+    <div class="card fi" style="margin-top:24px;padding:20px;text-align:center">
+      <p style="font-size:.88rem;margin-bottom:8px;color:var(--text-light)">特に有望な拡張先</p>
+      <div class="grid-2" style="gap:12px;text-align:left">
+        <div style="font-size:.85rem"><strong style="color:var(--green)">すぐに動ける</strong> &rarr; 資格・教材（図書庫との相性が抜群）</div>
+        <div style="font-size:.85rem"><strong style="color:var(--blue)">金額が大きい</strong> &rarr; 地方自治体（補助金は数百万〜数千万）</div>
+        <div style="font-size:.85rem"><strong style="color:var(--red)">P2以降で強力</strong> &rarr; 人材紹介（成功報酬は1人数十万円）</div>
+        <div style="font-size:.85rem"><strong style="color:var(--orange)">PFの価値を上げる</strong> &rarr; 業界団体（加盟企業を一括で連れてくる）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 第7章 具体的に何をするのか -->
+<section id="ch7">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 7 &mdash; What We Do</span>
+      <h2>具体的に何をするのか</h2>
+    </div>
+
+    <div class="card fi" style="padding:28px;margin-bottom:24px;border-left:4px solid var(--green)">
+      <h3>7-1. プロトタイプはすでに完成している</h3>
+      <p style="font-size:.9rem;margin-top:10px">全12ページ / 25のJavaScript関数 / 約3,300行のコード / モバイル完全対応</p>
+      <p style="font-size:.9rem;margin-top:8px;font-weight:600">「こういうものを作りたい」ではなく、「もう動くものがここにある」。</p>
+      <div class="grid-2" style="margin-top:16px;gap:8px">
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; ページナビゲーション（SPA 8タブ）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 学生ダッシュボード</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 企業ダッシュボード（What/Why/How）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 就職課管理画面</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 4コーナー（新卒/二新卒/編入/逆オファー）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 大学PR管理画面</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 学校紹介ページ（学校詳細5タブ）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 図書庫（逆検索・公開非公開制御）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; 履歴書ビルダー（3テンプレ・公開設定）</div>
+        <div style="font-size:.8rem;color:var(--text-light);padding:4px 0">&#10003; モバイルBottomNav + レスポンシブ</div>
+      </div>
+    </div>
+
+    <h3 class="fi">7-2. 実装の優先順位も整理済み</h3>
+    <div class="roadmap fi" style="margin-top:16px">
+      <div class="rm-item"><div class="rm-label l0">P0: MVP</div><h4>1校で実運用できる最小限</h4><p style="font-size:.82rem;color:var(--text-light)">認証 / 求人 / チャット / 就職課画面 / 技術基盤</p></div>
+      <div class="rm-item p1"><div class="rm-label l1">P1: 差別化</div><h4>「マイナビと何が違う？」に答える</h4><p style="font-size:.82rem;color:var(--text-light)">企業ページ / プロフィール / 履歴書 / 通知</p></div>
+      <div class="rm-item p2"><div class="rm-label l2">P2: 成長</div><h4>3つの課金源を全て稼働</h4><p style="font-size:.82rem;color:var(--text-light)">ストーリー / 逆オファー / 大学編入 / 図書庫 / 課金</p></div>
+      <div class="rm-item p3"><div class="rm-label l3">P3: インフラ化</div><h4>専門学校の標準PFへ</h4><p style="font-size:.82rem;color:var(--text-light)">学校紹介 / スカウト / API連携</p></div>
+    </div>
+
+    <h3 class="fi" style="margin-top:32px">7-3. 営業リストも準備済み</h3>
+    <div class="grid-3 fi" style="margin-top:12px">
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:1.8rem;font-weight:800;color:var(--purple)">576</div><div style="font-size:.78rem;color:var(--text-light)">編入受入大学<br>CSVリスト完成</div></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:1.8rem;font-weight:800;color:var(--orange)">3,000</div><div style="font-size:.78rem;color:var(--text-light)">全国の専門学校<br>（約60万人の学生）</div></div>
+      <div class="card" style="text-align:center;padding:20px"><div style="font-size:1.8rem;font-weight:800;color:var(--blue)">数万社</div><div style="font-size:.78rem;color:var(--text-light)">専門学校卒を<br>採用する企業</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 第8章 独自性 -->
+<section id="ch8">
+  <div class="container">
+    <div class="chapter-head fi">
+      <span class="overline">Chapter 8 &mdash; Uniqueness</span>
+      <h2>UstNextの8つの「これは他にない」</h2>
+    </div>
+
+    <div class="card fi">
+      <div class="uf-item"><div class="uf-num">1</div><div class="uf-text"><h4>逆オファー型投稿 <span class="uf-badge uf-badge-first">業界初</span></h4><p>学生が「こんな仕事がほしい」と投稿&rarr;企業がリアクション。学生&rarr;企業は業界初。</p></div></div>
+      <div class="uf-item"><div class="uf-num">2</div><div class="uf-text"><h4>就職課監視チャット</h4><p>企業と学生が直接チャットできるが、就職課が全て閲覧・介入可能。就職課仲介文化をデジタル化。</p></div></div>
+      <div class="uf-item"><div class="uf-num">3</div><div class="uf-text"><h4>学科 = 職種マッチング</h4><p>「IT学科2年生」で検索すればITエンジニア志望の学生が出る。この当たり前を実現したPFは存在しない。</p></div></div>
+      <div class="uf-item"><div class="uf-num">4</div><div class="uf-text"><h4>大学編入コーナー + 大学PR管理</h4><p>大学が専門学校生に直接PRできるチャネル。完全空白市場。</p></div></div>
+      <div class="uf-item"><div class="uf-num">5</div><div class="uf-text"><h4>履歴書ビルダー x 3段階公開</h4><p>作った履歴書がそのまま企業マッチングの対象に。「作る」と「見せる」が一体化。</p></div></div>
+      <div class="uf-item"><div class="uf-num">6</div><div class="uf-text"><h4>第二新卒 x LTV延長 <span class="uf-badge uf-badge-first">業界初</span></h4><p>卒業=終了ではない。卒業後3年間継続。在学2年+卒業後3年=LTV 5年。</p></div></div>
+      <div class="uf-item"><div class="uf-num">7</div><div class="uf-text"><h4>学校紹介ページ <span class="uf-badge uf-badge-new">NEW</span></h4><p>入口（入学検討者への学校PR）から出口（就職）まで一気通貫。専門学校のインフラ。</p></div></div>
+      <div class="uf-item"><div class="uf-num">8</div><div class="uf-text"><h4>図書庫（本&rarr;人の逆検索） <span class="uf-badge uf-badge-new">NEW</span></h4><p>読書情報を共有し「この本を読んでいる人は誰？」で逆検索。就活PFに読書コミュニティを統合した例は世界にない。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>UstNextは、USTORYの「次の一手」です。</h2>
+    <p>「専門学校」という誰も本気で取りに行っていない市場で、<br>「プラットフォーム」というスケールする事業モデルで、<br>「2026年の制度改正」という最高のタイミングで、<br>「学校を知っている私たち」だからこそ作れるサービスを、先に押さえる。</p>
+    <p style="font-size:1.1rem;font-weight:700;margin-top:8px">プロトタイプはもうあります。<br>あとは、「やる」と決めるだけです。</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p><strong>UstNext</strong> &mdash; 専門学校と企業をつなぐ、閉鎖型就職支援プラットフォーム</p>
+    <p style="margin-top:6px">USTORY Inc. | 2026年3月</p>
+  </div>
+</footer>
+
+<script>
+// NAV SCROLL
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+
+// ACTIVE NAV
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.topnav-links a');
+window.addEventListener('scroll',()=>{let c='';secs.forEach(s=>{if(scrollY>=s.offsetTop-100)c=s.id});links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+c))});
+
+// FADE IN
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// SMOOTH SCROLL
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})}));
+</script>
+
+</body>
+</html>
